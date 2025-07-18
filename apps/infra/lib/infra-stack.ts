@@ -53,19 +53,13 @@ export class InfraStack extends Stack {
                     'cd ../..',
                     'pwd',
                     'ls -la',
-
                     'corepack enable',
                     'corepack prepare pnpm@latest --activate',
-
                     'pnpm install --frozen-lockfile',
                   ],
                 },
                 build: {
-                  commands: [
-                    'cd ../..',
-
-                    'pnpm turbo run build --filter=@repo/web',
-                  ],
+                  commands: ['pnpm turbo run build --filter=@repo/web'],
                 },
               },
               artifacts: {
