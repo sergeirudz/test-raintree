@@ -48,24 +48,32 @@ export class InfraStack extends Stack {
             frontend: {
               phases: {
                 preBuild: {
-                  commands: ['pnpm install'], // Changed from 'npm ci'
+                  commands: [
+                    'cd ../..',
+                    'corepack enable',
+                    'corepack prepare pnpm@latest --activate',
+                    'pnpm install',
+                  ],
                 },
                 build: {
-                  commands: ['pnpm run build'],
+                  commands: [
+                    'cd ../..',
+                    'pnpm turbo run build --filter=@repo/web',
+                  ],
                 },
               },
               artifacts: {
-                baseDirectory: 'dist',
+                baseDirectory: 'apps/web/dist',
                 files: ['**/*'],
               },
               cache: {
-                paths: ['node_modules/**/**'],
+                paths: ['node_modules/**/*', 'apps/*/node_modules/**/*'],
               },
             },
           },
         ],
       }),
     });
-    const mainBranch = amplifyApp.addBranch('deploy-front');
+    amplifyApp.addBranch('deploy-front');
   }
 }
