@@ -34,7 +34,7 @@ export class InfraStack extends Stack {
       role: amplifyRole,
       environmentVariables: {
         AMPLIFY_MONOREPO_APP_ROOT: 'apps/web',
-        _CUSTOM_IMAGE: 'amplify:al2023', // Use AL2023 image for better pnpm support
+        _CUSTOM_IMAGE: 'amplify:al2023',
       },
       sourceCodeProvider: new GitHubSourceCodeProvider({
         owner: 'sergeirudz',
@@ -50,21 +50,21 @@ export class InfraStack extends Stack {
               phases: {
                 preBuild: {
                   commands: [
+                    'cd ../..',
                     'pwd',
                     'ls -la',
-                    'cd $AMPLIFY_MONOREPO_APP_ROOT/../..',
-                    'pwd',
-                    'ls -la',
+
                     'corepack enable',
                     'corepack prepare pnpm@latest --activate',
+
                     'pnpm install --frozen-lockfile',
                   ],
                 },
                 build: {
                   commands: [
-                    'cd $AMPLIFY_MONOREPO_APP_ROOT/../..',
+                    'cd ../..',
+
                     'pnpm turbo run build --filter=@repo/web',
-                    'cd apps/web',
                   ],
                 },
               },
