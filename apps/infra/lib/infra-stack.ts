@@ -56,7 +56,7 @@ export class InfraStack extends Stack {
               },
               artifacts: {
                 baseDirectory: 'dist',
-                files: '**/*',
+                files: ['**/*'],
               },
               cache: {
                 paths: ['node_modules/**/**'],
