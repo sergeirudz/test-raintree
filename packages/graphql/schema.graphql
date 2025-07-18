@@ -1,0 +1,68 @@
+type Query {
+  getUser(userId: ID!): User
+  listUsers(limit: Int, nextToken: String): UserConnection!
+  getWeight(weightId: ID!): Weight
+  listWeights(limit: Int, nextToken: String): WeightConnection!
+  listWeightsByUser(
+    userId: ID!
+    limit: Int
+    nextToken: String
+  ): WeightConnection!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  updateUser(input: UpdateUserInput!): User!
+  deleteUser(userId: ID!): Boolean!
+  createWeight(input: CreateWeightInput!): Weight!
+  updateWeight(input: UpdateWeightInput!): Weight!
+  deleteWeight(weightId: ID!): Boolean!
+}
+
+type User {
+  id: ID!
+  name: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+
+  weights: [Weight!]!
+}
+
+type Weight {
+  id: ID!
+  userId: ID!
+  weight: Float!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+
+  user: User
+}
+
+input CreateUserInput {
+  name: String!
+}
+
+input UpdateUserInput {
+  id: ID!
+  name: String
+}
+
+input CreateWeightInput {
+  userId: ID!
+  weight: Float!
+}
+
+input UpdateWeightInput {
+  id: ID!
+  weight: Float!
+}
+
+type UserConnection {
+  items: [User!]!
+  nextToken: String
+}
+
+type WeightConnection {
+  items: [Weight!]!
+  nextToken: String
+}

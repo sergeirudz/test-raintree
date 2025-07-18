@@ -1,0 +1,27 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createAppSyncAPI = void 0;
+const aws_appsync_1 = require("aws-cdk-lib/aws-appsync");
+const path = require("path");
+const schemaPath = path.join(__dirname, '../../../../packages/graphql/schema.graphql');
+console.log('Schema path:', schemaPath);
+console.log('__dirname:', __dirname);
+const createAppSyncAPI = (scope, props) => {
+    const api = new aws_appsync_1.GraphqlApi(scope, props.apiName, {
+        name: props.apiName,
+        definition: aws_appsync_1.Definition.fromFile(schemaPath),
+        authorizationConfig: {
+            defaultAuthorization: {
+                authorizationType: aws_appsync_1.AuthorizationType.API_KEY,
+            },
+        },
+        logConfig: {
+            fieldLogLevel: aws_appsync_1.FieldLogLevel.ALL,
+        },
+        xrayEnabled: true,
+    });
+    api.addDynamoDbDataSource('AppDataDS', props.dataTable);
+    return api;
+};
+exports.createAppSyncAPI = createAppSyncAPI;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwc3luYy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbImFwcHN5bmMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEseURBS2lDO0FBR2pDLDZCQUE2QjtBQU83QixNQUFNLFVBQVUsR0FBRyxJQUFJLENBQUMsSUFBSSxDQUMxQixTQUFTLEVBQ1QsNkNBQTZDLENBQzlDLENBQUM7QUFFRixPQUFPLENBQUMsR0FBRyxDQUFDLGNBQWMsRUFBRSxVQUFVLENBQUMsQ0FBQztBQUN4QyxPQUFPLENBQUMsR0FBRyxDQUFDLFlBQVksRUFBRSxTQUFTLENBQUMsQ0FBQztBQUU5QixNQUFNLGdCQUFnQixHQUFHLENBQUMsS0FBZ0IsRUFBRSxLQUFzQixFQUFFLEVBQUU7SUFDM0UsTUFBTSxHQUFHLEdBQUcsSUFBSSx3QkFBVSxDQUFDLEtBQUssRUFBRSxLQUFLLENBQUMsT0FBTyxFQUFFO1FBQy9DLElBQUksRUFBRSxLQUFLLENBQUMsT0FBTztRQUNuQixVQUFVLEVBQUUsd0JBQVUsQ0FBQyxRQUFRLENBQUMsVUFBVSxDQUFDO1FBQzNDLG1CQUFtQixFQUFFO1lBQ25CLG9CQUFvQixFQUFFO2dCQUNwQixpQkFBaUIsRUFBRSwrQkFBaUIsQ0FBQyxPQUFPO2FBQzdDO1NBQ0Y7UUFDRCxTQUFTLEVBQUU7WUFDVCxhQUFhLEVBQUUsMkJBQWEsQ0FBQyxHQUFHO1NBQ2pDO1FBQ0QsV0FBVyxFQUFFLElBQUk7S0FDbEIsQ0FBQyxDQUFDO0lBRUgsR0FBRyxDQUFDLHFCQUFxQixDQUFDLFdBQVcsRUFBRSxLQUFLLENBQUMsU0FBUyxDQUFDLENBQUM7SUFFeEQsT0FBTyxHQUFHLENBQUM7QUFDYixDQUFDLENBQUM7QUFsQlcsUUFBQSxnQkFBZ0Isb0JBa0IzQiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7XG4gIEF1dGhvcml6YXRpb25UeXBlLFxuICBEZWZpbml0aW9uLFxuICBGaWVsZExvZ0xldmVsLFxuICBHcmFwaHFsQXBpLFxufSBmcm9tICdhd3MtY2RrLWxpYi9hd3MtYXBwc3luYyc7XG5pbXBvcnQgeyBUYWJsZSB9IGZyb20gJ2F3cy1jZGstbGliL2F3cy1keW5hbW9kYic7XG5pbXBvcnQgeyBDb25zdHJ1Y3QgfSBmcm9tICdjb25zdHJ1Y3RzJztcbmltcG9ydCAqIGFzIHBhdGggZnJvbSAncGF0aCc7XG5cbnR5cGUgQXBwU3luY0FQSVByb3BzID0ge1xuICBhcGlOYW1lOiBzdHJpbmc7XG4gIGRhdGFUYWJsZTogVGFibGU7IC8vIFNpbmdsZSB0YWJsZSBmb3IgYm90aCBlbnRpdGllc1xufTtcblxuY29uc3Qgc2NoZW1hUGF0aCA9IHBhdGguam9pbihcbiAgX19kaXJuYW1lLFxuICAnLi4vLi4vLi4vLi4vcGFja2FnZXMvZ3JhcGhxbC9zY2hlbWEuZ3JhcGhxbCdcbik7XG5cbmNvbnNvbGUubG9nKCdTY2hlbWEgcGF0aDonLCBzY2hlbWFQYXRoKTtcbmNvbnNvbGUubG9nKCdfX2Rpcm5hbWU6JywgX19kaXJuYW1lKTtcblxuZXhwb3J0IGNvbnN0IGNyZWF0ZUFwcFN5bmNBUEkgPSAoc2NvcGU6IENvbnN0cnVjdCwgcHJvcHM6IEFwcFN5bmNBUElQcm9wcykgPT4ge1xuICBjb25zdCBhcGkgPSBuZXcgR3JhcGhxbEFwaShzY29wZSwgcHJvcHMuYXBpTmFtZSwge1xuICAgIG5hbWU6IHByb3BzLmFwaU5hbWUsXG4gICAgZGVmaW5pdGlvbjogRGVmaW5pdGlvbi5mcm9tRmlsZShzY2hlbWFQYXRoKSxcbiAgICBhdXRob3JpemF0aW9uQ29uZmlnOiB7XG4gICAgICBkZWZhdWx0QXV0aG9yaXphdGlvbjoge1xuICAgICAgICBhdXRob3JpemF0aW9uVHlwZTogQXV0aG9yaXphdGlvblR5cGUuQVBJX0tFWSxcbiAgICAgIH0sXG4gICAgfSxcbiAgICBsb2dDb25maWc6IHtcbiAgICAgIGZpZWxkTG9nTGV2ZWw6IEZpZWxkTG9nTGV2ZWwuQUxMLFxuICAgIH0sXG4gICAgeHJheUVuYWJsZWQ6IHRydWUsXG4gIH0pO1xuXG4gIGFwaS5hZGREeW5hbW9EYkRhdGFTb3VyY2UoJ0FwcERhdGFEUycsIHByb3BzLmRhdGFUYWJsZSk7XG5cbiAgcmV0dXJuIGFwaTtcbn07XG4iXX0=

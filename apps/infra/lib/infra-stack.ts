@@ -6,6 +6,8 @@ import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { createTable } from './tables/createTable';
+import { createAppSyncAPI } from './api/appsync';
 
 export class InfraStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -30,6 +32,16 @@ export class InfraStack extends Stack {
       ],
     });
 
+    const dynamoDBTable = createTable(this, {
+      tableName: 'appDataTable',
+    });
+
+    createAppSyncAPI(this, {
+      apiName: 'weights-api',
+      dataTable: dynamoDBTable,
+    });
+
+    // TODO: Extract to separate file
     const amplifyApp = new App(this, amplifyAppName, {
       role: amplifyRole,
       environmentVariables: {

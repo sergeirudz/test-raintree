@@ -1,0 +1,12 @@
+{
+  "name": "@repo/graphql",
+  "version": "0.0.0",
+  "main": "index.js",
+  "files": [
+    "schema.graphql",
+    "index.js"
+  ],
+  "exports": {
+    "./schema.graphql": "./schema.graphql"
+  }
+}
