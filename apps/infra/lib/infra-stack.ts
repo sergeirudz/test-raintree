@@ -44,10 +44,11 @@ export class InfraStack extends Stack {
         version: '1.0',
         applications: [
           {
+            appRoot: 'apps/web',
             frontend: {
               phases: {
                 preBuild: {
-                  commands: ['npm ci'],
+                  commands: ['pnpm install'], // Changed from 'npm ci'
                 },
                 build: {
                   commands: ['pnpm run build'],
@@ -60,7 +61,6 @@ export class InfraStack extends Stack {
               cache: {
                 paths: ['node_modules/**/**'],
               },
-              appRoot: 'apps/web',
             },
           },
         ],
