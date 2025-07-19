@@ -7,12 +7,20 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "codegen": "cd ../../packages/graphql && npx @aws-amplify/cli codegen && cd ../../apps/infra",
+    "build:resolvers": "cd ../../packages/appsync-resolvers && pnpm build && cd ../../apps/infra",
+    "predeploy": "pnpm run codegen && pnpm run build:resolvers && pnpm run build",
+    "deploy": "cdk deploy",
+    "predeploy:local": "pnpm run codegen && pnpm run build:resolvers && pnpm run build",
+    "deploy:local": "cdk deploy --profile your-aws-profile --outputs-file output.json"
   },
   "devDependencies": {
+    "@aws-appsync/utils": "^2.0.3",
     "@types/node": "22.7.9",
     "aws-cdk": "2.1018.1",
-    "ts-jest": "^29.2.5",
+    "esbuild": "^0.25.6",
+    "glob": "^11.0.3",
     "ts-node": "^10.9.2",
     "typescript": "~5.6.3"
   },

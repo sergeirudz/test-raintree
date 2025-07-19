@@ -1,0 +1,70 @@
+import {
+  App,
+  GitHubSourceCodeProvider,
+  Platform,
+} from '@aws-cdk/aws-amplify-alpha';
+import { SecretValue } from 'aws-cdk-lib';
+import { BuildSpec } from 'aws-cdk-lib/aws-codebuild';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
+
+type AmplifyHostingProps = {
+  appName: string;
+  role: iam.Role;
+};
+
+export function createAmplifyHosting(
+  scope: Construct,
+  props: AmplifyHostingProps
+) {
+  const amplifyApp = new App(scope, props.appName, {
+    role: props.role,
+    environmentVariables: {
+      AMPLIFY_MONOREPO_APP_ROOT: 'apps/web',
+      _CUSTOM_IMAGE: 'amplify:al2023',
+    },
+    platform: Platform.WEB, // WEB_COMPUTE === SSR
+    sourceCodeProvider: new GitHubSourceCodeProvider({
+      owner: 'sergeirudz',
+      repository: 'test-raintree',
+      oauthToken: SecretValue.secretsManager('github-token'),
+    }),
+    autoBranchDeletion: true,
+    buildSpec: BuildSpec.fromObjectToYaml({
+      version: '1.0',
+      applications: [
+        {
+          appRoot: 'apps/web',
+          frontend: {
+            phases: {
+              preBuild: {
+                commands: [
+                  'cd ../..',
+                  'pwd',
+                  'ls -la',
+                  'corepack enable',
+                  'corepack prepare pnpm@latest --activate',
+                  'pnpm install --frozen-lockfile',
+                ],
+              },
+              build: {
+                commands: ['pnpm turbo run build --filter=@repo/web'],
+              },
+            },
+            artifacts: {
+              baseDirectory: 'dist',
+              files: ['**/*'],
+            },
+            cache: {
+              paths: ['../../node_modules/**/*', '../../.turbo/**/*'],
+            },
+          },
+        },
+      ],
+    }),
+  });
+
+  amplifyApp.addBranch('deploy-front');
+
+  return amplifyApp;
+}
