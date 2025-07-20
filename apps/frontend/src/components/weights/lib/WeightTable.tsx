@@ -1,5 +1,4 @@
-interface Props {}
-const WeightTable = (props: Props) => {
+const WeightTable = () => {
   return <div>WeightTable</div>;
 };
 export default WeightTable;

@@ -126,7 +126,6 @@ export const useDeleteWeightMutation = () => {
     mutationKey: deleteWeightMutationKey,
     mutationFn: async ({
       weightId,
-      userId,
     }: {
       weightId: string;
       userId: string;
@@ -145,13 +144,13 @@ export const useDeleteWeightMutation = () => {
 
       return response.data?.deleteWeight || false;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (_, { userId }) => {
       queryClient.invalidateQueries({ queryKey: weightsQueryKey() });
       queryClient.invalidateQueries({
-        queryKey: userWeightsQueryKey(variables.userId),
+        queryKey: userWeightsQueryKey(userId),
       });
       queryClient.invalidateQueries({
-        queryKey: userQueryKey(variables.userId),
+        queryKey: userQueryKey(userId),
       });
     },
     onError: (error: Error) => {
