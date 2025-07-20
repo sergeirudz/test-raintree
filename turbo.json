@@ -1,13 +1,26 @@
 {
   "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "globalEnv": [
+    "VITE_GRAPHQL_ENDPOINT",
+    "VITE_APPSYNC_API_KEY",
+    "VITE_APPSYNC_REGION",
+    "VITE_APPSYNC_DEFAULT_AUTH_MODE",
+    "VITE_AWS_REGION",
+    "VITE_COGNITO_IDENTITY_POOL_ID"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", "build/**"]
     },
     "lint": {},
     "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "start": {
       "cache": false,
       "persistent": true
     }
