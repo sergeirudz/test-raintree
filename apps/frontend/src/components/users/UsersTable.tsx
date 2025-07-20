@@ -12,6 +12,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import IconButton from '@mui/material/IconButton';
 import { Tooltip } from '@mui/material';
 import { Link } from '@tanstack/react-router';
+import UsersTableActions from './UsersTableActions';
 
 export default function UsersTable() {
   const { data: usersData, isLoading, error } = useListUsersQuery();
@@ -60,7 +61,13 @@ export default function UsersTable() {
               <TableCell>
                 {new Date(user.updatedAt).toLocaleDateString()}
               </TableCell>
-              <TableCell>
+              <TableCell
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <UsersTableActions userId={user.id} />
                 <Tooltip title="View patient" placement="top">
                   <IconButton component={Link} to={`/users/${user.id}`}>
                     <ArrowRightAltIcon />

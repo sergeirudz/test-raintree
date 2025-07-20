@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -28,9 +28,7 @@ interface WeightsDataTableProps {
 const WeightsDataTable = ({ weights }: WeightsDataTableProps) => {
   const deleteWeightMutation = useDeleteWeightMutation();
   const updateWeightMutation = useUpdateWeightMutation();
-  const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
-    {}
-  );
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
   const handleDeleteClick = (id: GridRowId) => async () => {
     const weight = weights.find((w) => w.id === id);
@@ -115,7 +113,7 @@ const WeightsDataTable = ({ weights }: WeightsDataTableProps) => {
     });
   };
 
-  const rowsWithDiff = React.useMemo(() => {
+  const rowsWithDiff = useMemo(() => {
     const sortedWeights = [...weights].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );

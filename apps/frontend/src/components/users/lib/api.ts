@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createUser, updateUser } from '@repo/graphql/codegen/mutations';
+import { createUser, updateUser, deleteUser } from '@repo/graphql/codegen/mutations';
 import { listUsers, getUser } from '@repo/graphql/codegen/queries';
 import { graphqlClient } from '../../../lib/graphql-client';
 import type {
@@ -147,5 +147,39 @@ export const useGetUserQuery = (userId: string) => {
       return response.data.getUser as User;
     },
     enabled: !!userId,
+  });
+};
+
+/*
+ * Delete User Mutation
+ */
+export const deleteUserMutationKey = ['delete-user'] as const;
+
+export const useDeleteUserMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: deleteUserMutationKey,
+    mutationFn: async (data: { userId: string }): Promise<boolean> => {
+      const response = await graphqlClient.graphql({
+        query: deleteUser,
+        variables: {
+          userId: data.userId,
+        },
+        authMode: 'apiKey',
+      });
+
+      if (response.errors) {
+        throw new Error(response.errors[0]?.message || 'GraphQL error');
+      }
+
+      return response.data?.deleteUser as boolean;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: usersQueryKey() });
+    },
+    onError: (error: Error) => {
+      console.error('Failed to delete user:', error);
+    },
   });
 };

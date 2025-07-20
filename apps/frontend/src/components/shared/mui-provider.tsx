@@ -1,4 +1,5 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import type { PropsWithChildren } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -8,10 +9,6 @@ const theme = createTheme({
   },
 });
 
-export default function MuiProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function MuiProvider({ children }: PropsWithChildren) {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
