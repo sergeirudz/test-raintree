@@ -7,7 +7,7 @@
     "start:frontend": "dotenv -c -- turbo run start --filter=@repo/frontend",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "deploy:infra": "pnpm run deploy --filter @repo/infra"
+    "deploy:infra": "pnpm --filter @repo/infra run deploy"
   },
   "devDependencies": {
     "dotenv-cli": "^8.0.0",
