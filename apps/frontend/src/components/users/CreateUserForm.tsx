@@ -51,7 +51,6 @@ export default function CreateUserForm({
         console.log('User created successfully:', newUser);
         onSuccess?.(newUser);
 
-        // Reset form after successful submission
         form.reset();
       } catch (error) {
         const errorMessage =
@@ -65,7 +64,7 @@ export default function CreateUserForm({
   return (
     <Box sx={{ maxWidth: 400, mx: 'auto', p: 3 }}>
       <Typography variant="h5" component="h1" gutterBottom>
-        Create New User
+        Create New Patient
       </Typography>
 
       {createUserMutation.error && (

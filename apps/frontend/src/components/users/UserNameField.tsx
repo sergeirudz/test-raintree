@@ -1,7 +1,7 @@
 import { IconButton, Stack, TextField, Typography } from '@mui/material';
 import { useState, useRef, useEffect } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SaveIcon from '@mui/icons-material/Save';
 import { useUpdateUserMutation } from './lib/api';
 
 const UserNameField = ({
@@ -95,7 +95,7 @@ const UserNameField = ({
             onClick={() => handleConfirm()}
             disabled={updateUserMutation.isPending}
           >
-            <CheckCircleIcon />
+            <SaveIcon />
           </IconButton>
           <IconButton
             aria-label="Discard"

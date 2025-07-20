@@ -28,7 +28,7 @@ export default function UsersTable() {
 
   if (error) {
     return (
-      <Alert severity="error">Failed to load users: {error.message}</Alert>
+      <Alert severity="error">Failed to load patients: {error.message}</Alert>
     );
   }
 
@@ -61,7 +61,7 @@ export default function UsersTable() {
                 {new Date(user.updatedAt).toLocaleDateString()}
               </TableCell>
               <TableCell>
-                <Tooltip title="View user" placement="top">
+                <Tooltip title="View patient" placement="top">
                   <IconButton component={Link} to={`/users/${user.id}`}>
                     <ArrowRightAltIcon />
                   </IconButton>

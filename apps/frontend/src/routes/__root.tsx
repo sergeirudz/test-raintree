@@ -1,11 +1,11 @@
 import { Outlet, createRootRoute, Link } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import { AppBar, Toolbar, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Box } from '@mui/material';
 
 export const Route = createRootRoute({
   component: () => (
     <>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: 'white', mb: 1 }}>
         <Toolbar>
           <a
             href="https://www.raintreeinc.com/"
@@ -25,12 +25,18 @@ export const Route = createRootRoute({
             />
           </a>
           <Box sx={{ display: 'flex', ml: 'auto', gap: 2 }}>
-            <Button color="inherit" component={Link} to="/">
+            <Link
+              to="/"
+              style={{
+                textDecoration: 'none',
+                color: 'black',
+                padding: '6px 16px',
+                borderRadius: '4px',
+                transition: 'background-color 0.2s',
+              }}
+            >
               Home
-            </Button>
-            <Button color="inherit" component={Link} to="/create-user">
-              Create User
-            </Button>
+            </Link>
           </Box>
         </Toolbar>
       </AppBar>
