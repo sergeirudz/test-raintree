@@ -20,28 +20,9 @@ export declare class CognitoAuth extends Construct {
     readonly identityPoolId: string;
     readonly unauthenticatedRole: iam.Role;
     constructor(scope: Construct, id: string, props?: CognitoAuthProps);
-    /**
-     * Add basic policies that are commonly needed for unauthenticated users
-     */
     private addBasicUnauthenticatedPolicies;
-    /**
-     * Add a custom policy statement to the unauthenticated role
-     */
     addPolicyStatement(statement: iam.PolicyStatement): void;
-    /**
-     * Grant permissions to access DynamoDB tables (read-only for guests)
-     */
     grantReadOnlyDynamoDBAccess(tableArns: string[]): void;
-    /**
-     * Grant permissions to invoke specific Lambda functions
-     */
     grantLambdaInvokeAccess(functionArns: string[]): void;
-    /**
-     * Grant permissions to access S3 buckets (read-only for guests)
-     */
-    grantS3ReadAccess(bucketArns: string[]): void;
-    /**
-     * Grant permissions to access AppSync GraphQL API
-     */
     grantAppSyncAccess(apiArn: string): void;
 }
