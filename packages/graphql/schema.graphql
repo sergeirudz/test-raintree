@@ -24,7 +24,6 @@ type User {
   name: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-
   weights: [Weight!]!
 }
 
@@ -32,6 +31,7 @@ type Weight {
   id: ID!
   userId: ID!
   weight: Float!
+  date: AWSDate!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 
@@ -50,11 +50,13 @@ input UpdateUserInput {
 input CreateWeightInput {
   userId: ID!
   weight: Float!
+  date: AWSDate!
 }
 
 input UpdateWeightInput {
   id: ID!
   weight: Float!
+  date: AWSDate!
 }
 
 type UserConnection {

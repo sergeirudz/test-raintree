@@ -4,9 +4,13 @@
   "main": "index.js",
   "files": [
     "schema.graphql",
-    "index.js"
+    "index.js",
+    "codegen/"
   ],
   "exports": {
-    "./schema.graphql": "./schema.graphql"
+    "./schema.graphql": "./schema.graphql",
+    "./codegen/API": "./codegen/API.ts",
+    "./codegen/mutations": "./codegen/mutations.ts",
+    "./codegen/queries": "./codegen/queries.ts"
   }
 }

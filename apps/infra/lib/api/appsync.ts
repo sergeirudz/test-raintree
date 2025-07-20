@@ -60,12 +60,14 @@ export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
     code: Code.fromAsset(path.join(resolverPath, 'queries/listUsers.js')),
   });
 
-  api.createResolver('getWeightResolver', {
+  api.createResolver('listWeightsByUserResolver', {
     typeName: 'Query',
-    fieldName: 'getWeight',
+    fieldName: 'listWeightsByUser',
     dataSource: appDataSource,
     runtime: FunctionRuntime.JS_1_0_0,
-    code: Code.fromAsset(path.join(resolverPath, 'queries/getWeight.js')),
+    code: Code.fromAsset(
+      path.join(resolverPath, 'queries/listWeightsByUser.js')
+    ),
   });
 
   // Add Mutation resolvers
@@ -77,12 +79,55 @@ export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
     code: Code.fromAsset(path.join(resolverPath, 'mutations/createUser.js')),
   });
 
+  api.createResolver('updateUserResolver', {
+    typeName: 'Mutation',
+    fieldName: 'updateUser',
+    dataSource: appDataSource,
+    runtime: FunctionRuntime.JS_1_0_0,
+    code: Code.fromAsset(path.join(resolverPath, 'mutations/updateUser.js')),
+  });
+
+  api.createResolver('deleteUserResolver', {
+    typeName: 'Mutation',
+    fieldName: 'deleteUser',
+    dataSource: appDataSource,
+    runtime: FunctionRuntime.JS_1_0_0,
+    code: Code.fromAsset(path.join(resolverPath, 'mutations/deleteUser.js')),
+  });
+
   api.createResolver('createWeightResolver', {
     typeName: 'Mutation',
     fieldName: 'createWeight',
     dataSource: appDataSource,
     runtime: FunctionRuntime.JS_1_0_0,
     code: Code.fromAsset(path.join(resolverPath, 'mutations/createWeight.js')),
+  });
+
+  api.createResolver('updateWeightResolver', {
+    typeName: 'Mutation',
+    fieldName: 'updateWeight',
+    dataSource: appDataSource,
+    runtime: FunctionRuntime.JS_1_0_0,
+    code: Code.fromAsset(path.join(resolverPath, 'mutations/updateWeight.js')),
+  });
+
+  api.createResolver('deleteWeightResolver', {
+    typeName: 'Mutation',
+    fieldName: 'deleteWeight',
+    dataSource: appDataSource,
+    runtime: FunctionRuntime.JS_1_0_0,
+    code: Code.fromAsset(path.join(resolverPath, 'mutations/deleteWeight.js')),
+  });
+
+  // Add Field resolvers
+  api.createResolver('userWeightsFieldResolver', {
+    typeName: 'User',
+    fieldName: 'weights',
+    dataSource: appDataSource,
+    runtime: FunctionRuntime.JS_1_0_0,
+    code: Code.fromAsset(
+      path.join(resolverPath, 'fieldResolvers/User.weights.js')
+    ),
   });
 
   return api;

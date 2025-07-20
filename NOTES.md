@@ -1,5 +1,9 @@
 # Notes
 
+## Frontend
+
+- Tanstack form <https://tanstack.com/form/latest/docs/overview>
+
 ## Appsync
 
 - Create resolvers <https://github.dev/focusOtter/fullstack-nextjs-cdk-starter>

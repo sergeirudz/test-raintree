@@ -10,5 +10,12 @@ dist-ssr
 server/dist
 public/dist
 
+# AppSync resolver build artifacts
+packages/appsync-resolvers/build
+
 # Ignore CDK out dir
 cdk.out/
+
+# Tanstack
+**/*/.tanstack
+**/*/.add-on

@@ -20,6 +20,7 @@ export type Weight = {
   id: string,
   userId: string,
   weight: number,
+  date: string,
   createdAt: string,
   updatedAt: string,
   user?: User | null,
@@ -33,11 +34,13 @@ export type UpdateUserInput = {
 export type CreateWeightInput = {
   userId: string,
   weight: number,
+  date: string,
 };
 
 export type UpdateWeightInput = {
   id: string,
   weight: number,
+  date: string,
 };
 
 export type UserConnection = {
@@ -68,6 +71,7 @@ export type CreateUserMutation = {
       id: string,
       userId: string,
       weight: number,
+      date: string,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -90,6 +94,7 @@ export type UpdateUserMutation = {
       id: string,
       userId: string,
       weight: number,
+      date: string,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -114,6 +119,7 @@ export type CreateWeightMutation = {
     id: string,
     userId: string,
     weight: number,
+    date: string,
     createdAt: string,
     updatedAt: string,
     user?:  {
@@ -136,6 +142,7 @@ export type UpdateWeightMutation = {
     id: string,
     userId: string,
     weight: number,
+    date: string,
     createdAt: string,
     updatedAt: string,
     user?:  {
@@ -172,6 +179,7 @@ export type GetUserQuery = {
       id: string,
       userId: string,
       weight: number,
+      date: string,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -207,6 +215,7 @@ export type GetWeightQuery = {
     id: string,
     userId: string,
     weight: number,
+    date: string,
     createdAt: string,
     updatedAt: string,
     user?:  {
@@ -232,6 +241,7 @@ export type ListWeightsQuery = {
       id: string,
       userId: string,
       weight: number,
+      date: string,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -253,6 +263,7 @@ export type ListWeightsByUserQuery = {
       id: string,
       userId: string,
       weight: number,
+      date: string,
       createdAt: string,
       updatedAt: string,
     } >,

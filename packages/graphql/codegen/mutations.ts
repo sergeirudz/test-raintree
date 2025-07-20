@@ -18,6 +18,7 @@ export const createUser = /* GraphQL */ `mutation CreateUser($input: CreateUserI
       id
       userId
       weight
+      date
       createdAt
       updatedAt
       __typename
@@ -39,6 +40,7 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser($input: UpdateUserI
       id
       userId
       weight
+      date
       createdAt
       updatedAt
       __typename
@@ -62,6 +64,7 @@ export const createWeight = /* GraphQL */ `mutation CreateWeight($input: CreateW
     id
     userId
     weight
+    date
     createdAt
     updatedAt
     user {
@@ -83,6 +86,7 @@ export const updateWeight = /* GraphQL */ `mutation UpdateWeight($input: UpdateW
     id
     userId
     weight
+    date
     createdAt
     updatedAt
     user {

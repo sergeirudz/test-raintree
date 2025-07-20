@@ -18,6 +18,7 @@ export const getUser = /* GraphQL */ `query GetUser($userId: ID!) {
       id
       userId
       weight
+      date
       createdAt
       updatedAt
       __typename
@@ -45,6 +46,7 @@ export const getWeight = /* GraphQL */ `query GetWeight($weightId: ID!) {
     id
     userId
     weight
+    date
     createdAt
     updatedAt
     user {
@@ -64,6 +66,7 @@ export const listWeights = /* GraphQL */ `query ListWeights($limit: Int, $nextTo
       id
       userId
       weight
+      date
       createdAt
       updatedAt
       __typename
@@ -82,6 +85,7 @@ export const listWeightsByUser = /* GraphQL */ `query ListWeightsByUser($userId:
       id
       userId
       weight
+      date
       createdAt
       updatedAt
       __typename
