@@ -20,7 +20,7 @@ export function createAmplifyHosting(
   const amplifyApp = new App(scope, props.appName, {
     role: props.role,
     environmentVariables: {
-      AMPLIFY_MONOREPO_APP_ROOT: 'apps/web',
+      AMPLIFY_MONOREPO_APP_ROOT: 'apps/frontend',
       _CUSTOM_IMAGE: 'amplify:al2023',
     },
     platform: Platform.WEB, // WEB_COMPUTE === SSR
@@ -34,7 +34,7 @@ export function createAmplifyHosting(
       version: '1.0',
       applications: [
         {
-          appRoot: 'apps/web',
+          appRoot: 'apps/frontend',
           frontend: {
             phases: {
               preBuild: {
@@ -48,7 +48,7 @@ export function createAmplifyHosting(
                 ],
               },
               build: {
-                commands: ['pnpm turbo run build --filter=@repo/web'],
+                commands: ['pnpm turbo run build --filter=@repo/frontend'],
               },
             },
             artifacts: {
