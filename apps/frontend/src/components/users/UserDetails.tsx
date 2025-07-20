@@ -7,9 +7,9 @@ import {
   Alert,
 } from '@mui/material';
 import { useGetUserQuery } from './lib/api';
-import WeightsTable from '../weights/WeightsTable';
 import AddWeightForm from '../weights/AddWeightForm';
-import { useEffect } from 'react';
+import WeightsDataTable from '../weights/WeightsDataTable';
+import UserNameField from './UserNameField';
 
 interface UserDetailsProps {
   userId: string;
@@ -17,10 +17,6 @@ interface UserDetailsProps {
 
 export default function UserDetails({ userId }: UserDetailsProps) {
   const { data: user, isLoading, error } = useGetUserQuery(userId);
-
-  useEffect(() => {
-    console.log('user', user);
-  }, [user]);
 
   if (isLoading) {
     return (
@@ -61,9 +57,7 @@ export default function UserDetails({ userId }: UserDetailsProps) {
 
       <Card>
         <CardContent>
-          <Typography variant="h6" component="h2" gutterBottom>
-            {user.name}
-          </Typography>
+          <UserNameField name={user.name} userId={userId} />
 
           <Box sx={{ mt: 2 }}>
             <Typography variant="body2" color="text.secondary">
@@ -88,13 +82,7 @@ export default function UserDetails({ userId }: UserDetailsProps) {
           <Typography variant="h6" component="h3" gutterBottom>
             Weight History
           </Typography>
-          <WeightsTable
-            weights={user.weights || []}
-            onDelete={() => {
-              // Refetch user data after deletion to update the UI
-              // The delete mutation already invalidates the cache
-            }}
-          />
+          <WeightsDataTable weights={user.weights || []} />
         </CardContent>
       </Card>
 

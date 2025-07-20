@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createUser } from '@repo/graphql/codegen/mutations';
+import { createUser, updateUser } from '@repo/graphql/codegen/mutations';
 import { listUsers, getUser } from '@repo/graphql/codegen/queries';
 import { graphqlClient } from '../../../lib/graphql-client';
 import type {
   CreateUserInput,
+  UpdateUserInput,
   User,
   UserConnection,
 } from '@repo/graphql/codegen/API';
@@ -48,6 +49,42 @@ export const useCreateUserMutation = () => {
     },
     onError: (error: Error) => {
       console.error('Failed to create user:', error);
+    },
+  });
+};
+
+/*
+ * Update User Mutation
+ */
+export const updateUserMutationKey = ['update-user'] as const;
+
+export const useUpdateUserMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: updateUserMutationKey,
+    mutationFn: async (data: UpdateUserInput): Promise<User> => {
+      const response = await graphqlClient.graphql({
+        query: updateUser,
+        variables: {
+          input: data,
+        },
+        authMode: 'apiKey',
+      });
+
+      if (response.errors) {
+        throw new Error(response.errors[0]?.message || 'GraphQL error');
+      }
+
+      return response.data?.updateUser as User;
+    },
+    onSuccess: (updatedUser: User) => {
+      queryClient.invalidateQueries({ queryKey: usersQueryKey() });
+      queryClient.invalidateQueries({ queryKey: userQueryKey(updatedUser.id) });
+      queryClient.setQueryData(userQueryKey(updatedUser.id), updatedUser);
+    },
+    onError: (error: Error) => {
+      console.error('Failed to update user:', error);
     },
   });
 };
