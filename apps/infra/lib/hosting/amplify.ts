@@ -22,6 +22,11 @@ export function createAmplifyHosting(
     environmentVariables: {
       AMPLIFY_MONOREPO_APP_ROOT: 'apps/frontend',
       _CUSTOM_IMAGE: 'amplify:al2023',
+      VITE_GRAPHQL_ENDPOINT:
+        'https://7brh2kkhi5fohdle6zrr2nrrby.appsync-api.us-east-1.amazonaws.com/graphql',
+      VITE_APPSYNC_API_KEY: 'da2-dzqcg6swyjfibpttbs2pql6h4a',
+      VITE_APPSYNC_REGION: 'us-east-1',
+      VITE_APPSYNC_DEFAULT_AUTH_MODE: 'apiKey',
     },
     platform: Platform.WEB, // WEB_COMPUTE === SSR
     sourceCodeProvider: new GitHubSourceCodeProvider({

@@ -1,5 +1,9 @@
 # Notes
 
+## Cognito
+
+- example repo <https://github.dev/dbroadhurst/aws-cognito-react/blob/master/app/src/App.tsx>
+
 ## Frontend
 
 - Tanstack form <https://tanstack.com/form/latest/docs/overview>
@@ -16,29 +20,4 @@
 
 ## Deploy functions
 
-## AWS
-
-```graphql
-# create user manually
-mutation CreateUser {
-  createUser(input: { name: "John Doe" }) {
-    id
-    name
-    createdAt
-    updatedAt
-  }
-}
-
-# list users
-query ListUsers {
-  listUsers(limit: 10) {
-    items {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-```
+-
