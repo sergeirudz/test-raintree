@@ -86,8 +86,23 @@ export default function UserDetails({ userId }: UserDetailsProps) {
         </CardContent>
       </Card>
 
-      <Card sx={{ mt: 2 }}>
-        <CardContent>
+      <Card
+        sx={{
+          mt: 2,
+
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <CardContent
+          sx={{
+            width: '100%',
+
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
+        >
           <Typography variant="h6" component="h3" gutterBottom>
             Add Weight
           </Typography>

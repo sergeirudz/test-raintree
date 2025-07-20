@@ -1,9 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
-
-import UsersTable from '@/components/users/UsersTable';
 import CreateUserForm from '@/components/users/CreateUserForm';
 import { Stack, Typography } from '@mui/material';
 import UsersDataTable from '@/components/users/UsersDataTable';
+import Layout from '@/components/layout/layout';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -11,13 +10,14 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <Stack direction="column">
-      <Typography variant="h4" component="h1">
-        Patients
-      </Typography>
-      <UsersDataTable />
-      {/* <UsersTable /> */}
-      <CreateUserForm />
-    </Stack>
+    <Layout>
+      <Stack direction="column">
+        <Typography variant="h4" component="h1">
+          Patients
+        </Typography>
+        <UsersDataTable />
+        <CreateUserForm />
+      </Stack>
+    </Layout>
   );
 }

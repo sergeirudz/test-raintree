@@ -7,6 +7,7 @@ import {
   Typography,
   Alert,
   InputAdornment,
+  Stack,
 } from '@mui/material';
 import { useCreateWeightMutation } from './lib/api';
 import type { Weight } from '@repo/graphql/codegen/API';
@@ -65,7 +66,7 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
   });
 
   return (
-    <Box sx={{ maxWidth: 400 }}>
+    <Stack sx={{ maxWidth: 400, width: '100%' }} justifyContent="center">
       {createWeightMutation.error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {createWeightMutation.error.message}
@@ -79,7 +80,13 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
           e.stopPropagation();
           form.handleSubmit();
         }}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: 2,
+          width: '100%',
+        }}
       >
         <form.Field
           name="weight"
@@ -182,7 +189,7 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
           )}
         />
       </Box>
-    </Box>
+    </Stack>
   );
 };
 

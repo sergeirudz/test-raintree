@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import UserDetails from '@/components/users/UserDetails';
+import Layout from '@/components/layout/layout';
 
 export const Route = createFileRoute('/users/$userId')({
   component: UserDetailComponent,
@@ -8,5 +9,9 @@ export const Route = createFileRoute('/users/$userId')({
 function UserDetailComponent() {
   const { userId } = Route.useParams();
 
-  return <UserDetails userId={userId} />;
+  return (
+    <Layout>
+      <UserDetails userId={userId} />
+    </Layout>
+  );
 }
