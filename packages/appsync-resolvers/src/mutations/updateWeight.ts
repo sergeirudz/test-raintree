@@ -1,14 +1,14 @@
 import * as ddb from '@aws-appsync/utils/dynamodb';
 import { Context, util } from '@aws-appsync/utils';
 
-interface CreateWeightInput {
-  userId: string;
-  weight: number;
-  date: string;
+interface UpdateWeightInput {
+  id: string;
+  weight?: number;
+  date?: string;
 }
 
-interface CreateWeightMutationVariables {
-  input: CreateWeightInput;
+interface UpdateWeightMutationVariables {
+  input: UpdateWeightInput;
 }
 
 interface Weight {
@@ -20,20 +20,17 @@ interface Weight {
   updatedAt: string;
 }
 
-export function request(ctx: Context<CreateWeightMutationVariables>) {
+export function request(ctx: Context<UpdateWeightMutationVariables>) {
   const now = util.time.nowISO8601();
-  const id = util.autoId();
+  const { id, ...updateData } = ctx.args.input;
 
-  return ddb.put({
+  return ddb.update({
     key: {
       __typename: 'Weight',
       id: id,
     },
-    item: {
-      id: id,
-      __typename: 'Weight',
-      ...ctx.args.input,
-      createdAt: now,
+    update: {
+      ...updateData,
       updatedAt: now,
     },
   });

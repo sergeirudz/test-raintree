@@ -1,12 +1,13 @@
 import * as ddb from '@aws-appsync/utils/dynamodb';
 import { Context, util } from '@aws-appsync/utils';
 
-interface CreateUserInput {
-  name: string;
+interface UpdateUserInput {
+  id: string;
+  name?: string;
 }
 
-interface CreateUserMutationVariables {
-  input: CreateUserInput;
+interface UpdateUserMutationVariables {
+  input: UpdateUserInput;
 }
 
 interface User {
@@ -16,20 +17,17 @@ interface User {
   updatedAt: string;
 }
 
-export function request(ctx: Context<CreateUserMutationVariables>) {
+export function request(ctx: Context<UpdateUserMutationVariables>) {
   const now = util.time.nowISO8601();
-  const id = util.autoId();
+  const { id, ...updateData } = ctx.args.input;
 
-  return ddb.put({
+  return ddb.update({
     key: {
       __typename: 'User',
       id: id,
     },
-    item: {
-      id: id,
-      __typename: 'User',
-      ...ctx.args.input,
-      createdAt: now,
+    update: {
+      ...updateData,
       updatedAt: now,
     },
   });

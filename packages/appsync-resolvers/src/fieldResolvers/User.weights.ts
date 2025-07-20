@@ -1,10 +1,6 @@
 import * as ddb from '@aws-appsync/utils/dynamodb';
 import { Context, util } from '@aws-appsync/utils';
 
-interface GetWeightQueryVariables {
-  weightId: string;
-}
-
 interface Weight {
   id: string;
   userId: string;
@@ -14,19 +10,20 @@ interface Weight {
   updatedAt: string;
 }
 
-export function request(ctx: Context<GetWeightQueryVariables>) {
-  return ddb.get({
-    key: {
-      __typename: 'Weight',
-      id: ctx.args.weightId,
+export function request(ctx: Context) {
+  const userId = ctx.source.id;
+
+  return ddb.scan({
+    filter: {
+      and: [{ __typename: { eq: 'Weight' } }, { userId: { eq: userId } }],
     },
   });
 }
 
-export function response(ctx: Context): Weight | null {
+export function response(ctx: Context): Weight[] {
   if (ctx.error) {
     util.error(ctx.error.message, ctx.error.type);
   }
 
-  return ctx.result as Weight | null;
+  return ctx.result.items as Weight[];
 }

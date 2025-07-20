@@ -15,6 +15,7 @@ interface User {
 export function request(ctx: Context<GetUserQueryVariables>) {
   return ddb.get({
     key: {
+      __typename: 'User',
       id: ctx.args.userId,
     },
   });
