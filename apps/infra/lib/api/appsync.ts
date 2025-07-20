@@ -5,8 +5,11 @@ import {
   GraphqlApi,
   FunctionRuntime,
   Code,
+  AppsyncFunction,
 } from 'aws-cdk-lib/aws-appsync';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
+import { Function, Runtime, Code as LambdaCode } from 'aws-cdk-lib/aws-lambda';
+import { Duration } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -40,10 +43,63 @@ export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
     xrayEnabled: true,
   });
 
-  // Add the DynamoDB datasource
   const appDataSource = api.addDynamoDbDataSource('AppDataDS', props.dataTable);
 
-  // Add Query resolvers
+  const validateWeightLambda = new Function(scope, 'ValidateWeightFunction', {
+    runtime: Runtime.NODEJS_18_X,
+    handler: 'validateWeight.handler',
+    code: LambdaCode.fromAsset(path.join(__dirname, '../functions')),
+    timeout: Duration.seconds(30),
+    memorySize: 256,
+  });
+
+  const lambdaDataSource = api.addLambdaDataSource(
+    'ValidateWeightDataSource',
+    validateWeightLambda
+  );
+
+  const validateWeightFunction = new AppsyncFunction(
+    scope,
+    'ValidateWeightAppsyncFunction',
+    {
+      name: 'validateWeightFunction',
+      api,
+      dataSource: lambdaDataSource,
+      runtime: FunctionRuntime.JS_1_0_0,
+      code: Code.fromAsset(
+        path.join(resolverPath, 'pipeline/validateWeight.js')
+      ),
+    }
+  );
+
+  const createWeightFunction = new AppsyncFunction(
+    scope,
+    'CreateWeightAppsyncFunction',
+    {
+      name: 'createWeightFunction',
+      api,
+      dataSource: appDataSource,
+      runtime: FunctionRuntime.JS_1_0_0,
+      code: Code.fromAsset(
+        path.join(resolverPath, 'mutations/createWeight.js')
+      ),
+    }
+  );
+
+  const updateWeightFunction = new AppsyncFunction(
+    scope,
+    'UpdateWeightAppsyncFunction',
+    {
+      name: 'updateWeightFunction',
+      api,
+      dataSource: appDataSource,
+      runtime: FunctionRuntime.JS_1_0_0,
+      code: Code.fromAsset(
+        path.join(resolverPath, 'mutations/updateWeight.js')
+      ),
+    }
+  );
+
   api.createResolver('getUserResolver', {
     typeName: 'Query',
     fieldName: 'getUser',
@@ -70,7 +126,6 @@ export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
     ),
   });
 
-  // Add Mutation resolvers
   api.createResolver('createUserResolver', {
     typeName: 'Mutation',
     fieldName: 'createUser',
@@ -98,17 +153,21 @@ export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
   api.createResolver('createWeightResolver', {
     typeName: 'Mutation',
     fieldName: 'createWeight',
-    dataSource: appDataSource,
     runtime: FunctionRuntime.JS_1_0_0,
-    code: Code.fromAsset(path.join(resolverPath, 'mutations/createWeight.js')),
+    pipelineConfig: [validateWeightFunction, createWeightFunction],
+    code: Code.fromAsset(
+      path.join(resolverPath, 'pipeline/createWeightPipeline.js')
+    ),
   });
 
   api.createResolver('updateWeightResolver', {
     typeName: 'Mutation',
     fieldName: 'updateWeight',
-    dataSource: appDataSource,
     runtime: FunctionRuntime.JS_1_0_0,
-    code: Code.fromAsset(path.join(resolverPath, 'mutations/updateWeight.js')),
+    pipelineConfig: [validateWeightFunction, updateWeightFunction],
+    code: Code.fromAsset(
+      path.join(resolverPath, 'pipeline/updateWeightPipeline.js')
+    ),
   });
 
   api.createResolver('deleteWeightResolver', {
@@ -119,7 +178,6 @@ export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
     code: Code.fromAsset(path.join(resolverPath, 'mutations/deleteWeight.js')),
   });
 
-  // Add Field resolvers
   api.createResolver('userWeightsFieldResolver', {
     typeName: 'User',
     fieldName: 'weights',

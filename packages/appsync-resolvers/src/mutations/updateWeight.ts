@@ -21,6 +21,21 @@ interface Weight {
 }
 
 export function request(ctx: Context<UpdateWeightMutationVariables>) {
+  const { weight } = ctx.args.input;
+
+  if (weight !== undefined) {
+    if (typeof weight !== 'number' || isNaN(weight)) {
+      util.error('Weight must be a valid number', 'ValidationException');
+    }
+
+    if (weight < 25.0 || weight > 250.0) {
+      util.error(
+        'Weight must be between 25.0 and 250.0 kg',
+        'ValidationException'
+      );
+    }
+  }
+
   const now = util.time.nowISO8601();
   const { id, ...updateData } = ctx.args.input;
 
