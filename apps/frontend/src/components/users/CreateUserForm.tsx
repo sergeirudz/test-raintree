@@ -61,8 +61,8 @@ export default function CreateUserForm({
   });
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', p: 3 }}>
-      <Typography variant="h5" component="h1" gutterBottom>
+    <Box sx={{ maxWidth: 400, margin: 'auto', width: '100%', p: 3 }}>
+      <Typography variant="h5" component="h2" gutterBottom>
         Create a new Patient
       </Typography>
 
@@ -79,7 +79,11 @@ export default function CreateUserForm({
           e.stopPropagation();
           form.handleSubmit();
         }}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+        }}
       >
         <form.Field
           name="name"

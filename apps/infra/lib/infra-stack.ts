@@ -7,6 +7,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { createTable } from './tables/createTable';
 import { createAppSyncAPI } from './api/appsync';
 import { createAmplifyHosting } from './hosting/amplify';
+import { createCognitoAuth } from './auth/createCognitoAuth';
 
 export class InfraStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -35,14 +36,22 @@ export class InfraStack extends Stack {
       tableName: 'appDataTable',
     });
 
+    const cognitoAuth = createCognitoAuth(this, {
+      identityPoolName: 'RaintreeGuestAccess',
+    });
+
+    cognitoAuth.grantReadOnlyDynamoDBAccess([dynamoDBTable.tableArn]);
+
     createAppSyncAPI(this, {
       apiName: 'weights-api',
       dataTable: dynamoDBTable,
+      cognitoAuth: cognitoAuth, // Pass Cognito auth to AppSync
     });
 
     createAmplifyHosting(this, {
       appName: amplifyAppName,
       role: amplifyRole,
+      cognitoAuth: cognitoAuth, // Pass Cognito auth for environment variables
     });
   }
 }

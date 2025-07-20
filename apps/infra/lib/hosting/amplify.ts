@@ -7,27 +7,34 @@ import { SecretValue } from 'aws-cdk-lib';
 import { BuildSpec } from 'aws-cdk-lib/aws-codebuild';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
+import { CognitoAuth } from '../auth';
 
 type AmplifyHostingProps = {
   appName: string;
   role: iam.Role;
+  cognitoAuth?: CognitoAuth;
 };
 
 export function createAmplifyHosting(
   scope: Construct,
   props: AmplifyHostingProps
 ) {
+  const environmentVariables: Record<string, string> = {
+    AMPLIFY_MONOREPO_APP_ROOT: 'apps/frontend',
+    _CUSTOM_IMAGE: 'amplify:al2023',
+    VITE_AWS_REGION: 'us-east-1',
+    VITE_GRAPHQL_ENDPOINT:
+      'https://7brh2kkhi5fohdle6zrr2nrrby.appsync-api.us-east-1.amazonaws.com/graphql',
+  };
+
+  if (props.cognitoAuth) {
+    environmentVariables.VITE_COGNITO_IDENTITY_POOL_ID =
+      props.cognitoAuth.identityPoolId;
+  }
+
   const amplifyApp = new App(scope, props.appName, {
     role: props.role,
-    environmentVariables: {
-      AMPLIFY_MONOREPO_APP_ROOT: 'apps/frontend',
-      _CUSTOM_IMAGE: 'amplify:al2023',
-      VITE_GRAPHQL_ENDPOINT:
-        'https://7brh2kkhi5fohdle6zrr2nrrby.appsync-api.us-east-1.amazonaws.com/graphql',
-      VITE_APPSYNC_API_KEY: 'da2-dzqcg6swyjfibpttbs2pql6h4a',
-      VITE_APPSYNC_REGION: 'us-east-1',
-      VITE_APPSYNC_DEFAULT_AUTH_MODE: 'apiKey',
-    },
+    environmentVariables,
     platform: Platform.WEB, // WEB_COMPUTE === SSR
     sourceCodeProvider: new GitHubSourceCodeProvider({
       owner: 'sergeirudz',

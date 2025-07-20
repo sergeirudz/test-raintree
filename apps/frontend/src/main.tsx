@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { ApiClientProvider } from './components/shared/queryclient-provider';
 import MuiProvider from './components/shared/mui-provider.tsx';
+import { AuthProvider } from './lib/auth';
 
 import { routeTree } from './routeTree.gen.ts';
 
@@ -29,11 +30,13 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <ApiClientProvider>
-        <MuiProvider>
-          <RouterProvider router={router} />
-        </MuiProvider>
-      </ApiClientProvider>
+      <AuthProvider autoLogin={true}>
+        <ApiClientProvider>
+          <MuiProvider>
+            <RouterProvider router={router} />
+          </MuiProvider>
+        </ApiClientProvider>
+      </AuthProvider>
     </StrictMode>
   );
 }

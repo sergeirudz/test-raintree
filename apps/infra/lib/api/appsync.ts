@@ -11,11 +11,13 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code as LambdaCode } from 'aws-cdk-lib/aws-lambda';
 import { Duration } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { CognitoAuth } from '../auth';
 import * as path from 'path';
 
 type AppSyncAPIProps = {
   apiName: string;
-  dataTable: Table; // Single table for both entities
+  dataTable: Table;
+  cognitoAuth?: CognitoAuth;
 };
 
 const schemaPath = path.join(
@@ -29,19 +31,32 @@ const resolverPath = path.join(
 );
 
 export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
+  const authorizationConfig = {
+    defaultAuthorization: {
+      authorizationType: AuthorizationType.API_KEY,
+    },
+    additionalAuthorizationModes: props.cognitoAuth
+      ? [
+          {
+            authorizationType: AuthorizationType.IAM,
+          },
+        ]
+      : undefined,
+  };
+
   const api = new GraphqlApi(scope, props.apiName, {
     name: props.apiName,
     definition: Definition.fromFile(schemaPath),
-    authorizationConfig: {
-      defaultAuthorization: {
-        authorizationType: AuthorizationType.API_KEY,
-      },
-    },
+    authorizationConfig,
     logConfig: {
       fieldLogLevel: FieldLogLevel.ALL,
     },
     xrayEnabled: true,
   });
+
+  if (props.cognitoAuth) {
+    props.cognitoAuth.grantAppSyncAccess(api.arn);
+  }
 
   const appDataSource = api.addDynamoDbDataSource('AppDataDS', props.dataTable);
 

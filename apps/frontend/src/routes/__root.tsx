@@ -1,6 +1,7 @@
 import { Outlet, createRootRoute, Link } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { AppBar, Toolbar, Box } from '@mui/material';
+import { Logout } from '@/components/auth/Logout';
 
 export const Route = createRootRoute({
   component: () => (
@@ -24,7 +25,9 @@ export const Route = createRootRoute({
               src="/raintree-logo.png"
             />
           </a>
-          <Box sx={{ display: 'flex', ml: 'auto', gap: 2 }}>
+          <Box
+            sx={{ display: 'flex', alignItems: 'center', ml: 'auto', gap: 2 }}
+          >
             <Link
               to="/"
               style={{
@@ -37,6 +40,7 @@ export const Route = createRootRoute({
             >
               Home
             </Link>
+            <Logout />
           </Box>
         </Toolbar>
       </AppBar>

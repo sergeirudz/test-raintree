@@ -89,7 +89,7 @@ export default function UserDetails({ userId }: UserDetailsProps) {
       <Card
         sx={{
           mt: 2,
-
+          border: 'none',
           display: 'flex',
           justifyContent: 'center',
         }}
@@ -97,7 +97,6 @@ export default function UserDetails({ userId }: UserDetailsProps) {
         <CardContent
           sx={{
             width: '100%',
-
             display: 'flex',
             alignItems: 'center',
             flexDirection: 'column',
