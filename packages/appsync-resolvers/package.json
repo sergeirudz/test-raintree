@@ -1,0 +1,20 @@
+{
+  "name": "@repo/appsync-resolvers",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "clean": "rm -rf build"
+  },
+  "dependencies": {
+    "@aws-appsync/utils": "^1.3.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5",
+    "glob": "^10.4.2",
+    "typescript": "^5.5.3",
+    "@repo/typescript-config": "workspace:*"
+  }
+}

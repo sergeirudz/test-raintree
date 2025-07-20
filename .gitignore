@@ -10,5 +10,27 @@ dist-ssr
 server/dist
 public/dist
 
+<<<<<<< HEAD
 # Ignore CDK out dir
 cdk.out/
+=======
+# AppSync resolver build artifacts
+packages/appsync-resolvers/build
+
+# Ignore CDK out dir
+cdk.out/
+
+# Tanstack
+**/*/.tanstack
+**/*/.add-on
+>>>>>>> add-appsync
+
+# AppSync resolver build artifacts
+packages/appsync-resolvers/build
+
+# Ignore CDK out dir
+cdk.out/
+
+# Tanstack
+**/*/.tanstack
+**/*/.add-on

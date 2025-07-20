@@ -1,16 +1,20 @@
 {
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
+    "build": "dotenv -c -- turbo run build",
+    "dev": "dotenv -c -- turbo run dev",
+    "dev:frontend": "dotenv -c -- turbo run dev --filter=@repo/frontend",
+    "start:frontend": "dotenv -c -- turbo run start --filter=@repo/frontend",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "deploy:infra": "pnpm run deploy --filter @repo/infra"
   },
   "devDependencies": {
+    "dotenv-cli": "^8.0.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "turbo": "^2.5.4"
   },
   "packageManager": "pnpm@10.2.0",
-  "name": "aws-orpc-monorepo"
+  "name": "test-raintree"
 }
