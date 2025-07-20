@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createUser, updateUser, deleteUser } from '@repo/graphql/codegen/mutations';
+import {
+  createUser,
+  updateUser,
+  deleteUser,
+} from '@repo/graphql/codegen/mutations';
 import { listUsers, getUser } from '@repo/graphql/codegen/queries';
 import { graphqlClient } from '../../../lib/graphql-client';
 import type {

@@ -5,10 +5,13 @@ interface Props extends PropsWithChildren {}
 const Layout = ({ children }: Props) => {
   return (
     <Grid
-      container
       spacing={0}
       sx={{
         justifyContent: 'center',
+        mx: 'auto',
+        maxWidth: {
+          lg: '50vw',
+        },
       }}
     >
       {children}
