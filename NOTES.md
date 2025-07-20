@@ -1,4 +1,4 @@
-# Notes
+# Useful sources
 
 ## Cognito
 
@@ -13,7 +13,7 @@
 
 - Create resolvers <https://github.dev/focusOtter/fullstack-nextjs-cdk-starter>
 
-## Deploy frontend
+## Deploying
 
 - <https://www.youtube.com/watch?v=ISNV6yfQqIA&ab_channel=FocusOtter>
 - <https://youtu.be/XLkVZIS1nyg>

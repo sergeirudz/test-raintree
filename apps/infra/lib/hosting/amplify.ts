@@ -76,7 +76,7 @@ export function createAmplifyHosting(
     }),
   });
 
-  amplifyApp.addBranch('deploy-front');
+  amplifyApp.addBranch('main');
 
   return amplifyApp;
 }
