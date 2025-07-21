@@ -26,9 +26,9 @@ export function createAmplifyHosting(
     AMPLIFY_MONOREPO_APP_NAME: '@repo/frontend',
     VITE_AWS_REGION: 'us-east-1',
     VITE_GRAPHQL_ENDPOINT:
-      'https://437vjdrzsbbppihxcxdyn535oi.appsync-api.us-east-1.amazonaws.com/graphql',
+      'https://pfrgqs7h6jhijh3mhdj75a4u3e.appsync-api.us-east-1.amazonaws.com/graphql',
     VITE_COGNITO_IDENTITY_POOL_ID:
-      'us-east-1:fa7c8cb7-4910-416d-99d5-904b7dc8749e',
+      'us-east-1:c2538c3b-1c4f-42df-a1b6-fb71ee8150c0',
   };
 
   const amplifyApp = new App(scope, props.appName, {
@@ -45,14 +45,11 @@ export function createAmplifyHosting(
       version: '1.0',
       applications: [
         {
-          appRoot: 'apps/frontend',
+          appRoot: '.',
           frontend: {
             phases: {
               preBuild: {
                 commands: [
-                  'cd ../..',
-                  'pwd',
-                  'ls -la',
                   'corepack enable',
                   'corepack prepare pnpm@latest --activate',
                   'pnpm install --frozen-lockfile',
@@ -63,11 +60,11 @@ export function createAmplifyHosting(
               },
             },
             artifacts: {
-              baseDirectory: 'dist',
+              baseDirectory: 'apps/frontend/dist',
               files: ['**/*'],
             },
             cache: {
-              paths: ['../../node_modules/**/*', '../../.turbo/**/*'],
+              paths: ['node_modules/**/*', '.turbo/**/*'],
             },
           },
         },
