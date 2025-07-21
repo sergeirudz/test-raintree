@@ -40,7 +40,7 @@ export class InfraStack extends Stack {
       identityPoolName: 'RaintreeGuestAccess',
     });
 
-    cognitoAuth.grantReadOnlyDynamoDBAccess([dynamoDBTable.tableArn]);
+    cognitoAuth.grantFullDynamoDBAccess([dynamoDBTable.tableArn]);
 
     createAppSyncAPI(this, {
       apiName: 'weights-api',

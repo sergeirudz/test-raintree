@@ -33,15 +33,13 @@ const resolverPath = path.join(
 export const createAppSyncAPI = (scope: Construct, props: AppSyncAPIProps) => {
   const authorizationConfig = {
     defaultAuthorization: {
-      authorizationType: AuthorizationType.API_KEY,
+      authorizationType: AuthorizationType.IAM,
     },
-    additionalAuthorizationModes: props.cognitoAuth
-      ? [
-          {
-            authorizationType: AuthorizationType.IAM,
-          },
-        ]
-      : undefined,
+    additionalAuthorizationModes: [
+      {
+        authorizationType: AuthorizationType.API_KEY,
+      },
+    ],
   };
 
   const api = new GraphqlApi(scope, props.apiName, {

@@ -37,7 +37,6 @@ export const useCreateUserMutation = () => {
             name: data.name,
           },
         },
-        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -73,7 +72,6 @@ export const useUpdateUserMutation = () => {
         variables: {
           input: data,
         },
-        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -109,7 +107,6 @@ export const useListUsersQuery = (options?: {
           limit: options?.limit || 20,
           nextToken: options?.nextToken,
         },
-        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -137,7 +134,6 @@ export const useGetUserQuery = (userId: string) => {
         variables: {
           userId: userId,
         },
-        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -170,7 +166,6 @@ export const useDeleteUserMutation = () => {
         variables: {
           userId: data.userId,
         },
-        authMode: 'identityPool',
       });
 
       if (response.errors) {

@@ -4,17 +4,8 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 
 export interface CognitoAuthProps {
-  /**
-   * Name for the identity pool
-   */
   identityPoolName?: string;
-  /**
-   * Additional IAM policy statements for unauthenticated users
-   */
   additionalPolicyStatements?: iam.PolicyStatement[];
-  /**
-   * Resource ARNs that unauthenticated users should have access to
-   */
   resourceArns?: string[];
 }
 
@@ -138,6 +129,31 @@ export class CognitoAuth extends Construct {
           'dynamodb:BatchGetItem',
         ],
         resources: tableArns,
+      })
+    );
+  }
+
+  public grantFullDynamoDBAccess(tableArns: string[]): void {
+    const allTableResources = tableArns.flatMap((arn) => [
+      arn,
+      `${arn}/*`,
+      `${arn}/index/*`,
+    ]);
+
+    this.unauthenticatedRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'dynamodb:GetItem',
+          'dynamodb:PutItem',
+          'dynamodb:UpdateItem',
+          'dynamodb:DeleteItem',
+          'dynamodb:Query',
+          'dynamodb:Scan',
+          'dynamodb:BatchGetItem',
+          'dynamodb:BatchWriteItem',
+        ],
+        resources: allTableResources,
       })
     );
   }
