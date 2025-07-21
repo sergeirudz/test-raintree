@@ -24,9 +24,9 @@ export function createAmplifyHosting(
     _CUSTOM_IMAGE: 'amplify:al2023',
     VITE_AWS_REGION: 'us-east-1',
     VITE_GRAPHQL_ENDPOINT:
-      'https://7brh2kkhi5fohdle6zrr2nrrby.appsync-api.us-east-1.amazonaws.com/graphql',
+      'https://437vjdrzsbbppihxcxdyn535oi.appsync-api.us-east-1.amazonaws.com/graphql',
     VITE_COGNITO_IDENTITY_POOL_ID:
-      'us-east-1:313924cc-3174-4032-baf5-4266abc40452',
+      'us-east-1:fa7c8cb7-4910-416d-99d5-904b7dc8749e',
   };
 
   const amplifyApp = new App(scope, props.appName, {
