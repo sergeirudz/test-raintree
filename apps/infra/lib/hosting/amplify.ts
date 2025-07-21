@@ -25,12 +25,9 @@ export function createAmplifyHosting(
     VITE_AWS_REGION: 'us-east-1',
     VITE_GRAPHQL_ENDPOINT:
       'https://7brh2kkhi5fohdle6zrr2nrrby.appsync-api.us-east-1.amazonaws.com/graphql',
+    VITE_COGNITO_IDENTITY_POOL_ID:
+      'us-east-1:313924cc-3174-4032-baf5-4266abc40452',
   };
-
-  if (props.cognitoAuth) {
-    environmentVariables.VITE_COGNITO_IDENTITY_POOL_ID =
-      props.cognitoAuth.identityPoolId;
-  }
 
   const amplifyApp = new App(scope, props.appName, {
     role: props.role,
