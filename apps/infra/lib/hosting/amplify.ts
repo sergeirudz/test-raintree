@@ -22,6 +22,8 @@ export function createAmplifyHosting(
   const environmentVariables: Record<string, string> = {
     AMPLIFY_MONOREPO_APP_ROOT: 'apps/frontend',
     _CUSTOM_IMAGE: 'amplify:al2023',
+    AMPLIFY_DIFF_DEPLOY: 'false',
+    AMPLIFY_MONOREPO_APP_NAME: '@repo/frontend',
     VITE_AWS_REGION: 'us-east-1',
     VITE_GRAPHQL_ENDPOINT:
       'https://437vjdrzsbbppihxcxdyn535oi.appsync-api.us-east-1.amazonaws.com/graphql',
