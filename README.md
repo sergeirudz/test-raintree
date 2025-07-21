@@ -3,6 +3,10 @@
 
 - [View Test Assignment Details](TASK.md)
 
+### Live Preview
+
+- <https://main.d24s548k74gzvz.amplifyapp.com/>
+
 ### Starting the project
 
 ```sh
