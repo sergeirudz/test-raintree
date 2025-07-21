@@ -48,7 +48,7 @@ export const useCreateWeightMutation = () => {
             date: data.date,
           },
         },
-        authMode: 'apiKey',
+        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -89,7 +89,7 @@ export const useUpdateWeightMutation = () => {
         variables: {
           input: data,
         },
-        authMode: 'apiKey',
+        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -135,7 +135,7 @@ export const useDeleteWeightMutation = () => {
         variables: {
           weightId: weightId,
         },
-        authMode: 'apiKey',
+        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -175,7 +175,7 @@ export const useListWeightsQuery = (options?: {
           limit: options?.limit || 20,
           nextToken: options?.nextToken,
         },
-        authMode: 'apiKey',
+        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -210,7 +210,7 @@ export const useListWeightsByUserQuery = (
           limit: options?.limit || 20,
           nextToken: options?.nextToken,
         },
-        authMode: 'apiKey',
+        authMode: 'identityPool',
       });
 
       if (response.errors) {
@@ -238,7 +238,7 @@ export const useGetWeightQuery = (weightId: string) => {
         variables: {
           weightId: weightId,
         },
-        authMode: 'apiKey',
+        authMode: 'identityPool',
       });
 
       if (response.errors) {
