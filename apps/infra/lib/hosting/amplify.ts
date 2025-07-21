@@ -21,6 +21,7 @@ export function createAmplifyHosting(
 ) {
   const environmentVariables: Record<string, string> = {
     AMPLIFY_MONOREPO_APP_ROOT: 'apps/frontend',
+    _CUSTOM_IMAGE: 'amplify:al2023',
     VITE_AWS_REGION: 'us-east-1',
     VITE_GRAPHQL_ENDPOINT:
       'https://437vjdrzsbbppihxcxdyn535oi.appsync-api.us-east-1.amazonaws.com/graphql',
@@ -50,14 +51,9 @@ export function createAmplifyHosting(
                   'cd ../..',
                   'pwd',
                   'ls -la',
-                  'echo "Node version:"',
-                  'node --version',
-                  'echo "NPM version:"',
-                  'npm --version',
-                  'npm install -g pnpm@latest',
-                  'pnpm --version',
+                  'corepack enable',
+                  'corepack prepare pnpm@latest --activate',
                   'pnpm install --frozen-lockfile',
-                  'echo "Dependencies installed successfully"',
                 ],
               },
               build: {
