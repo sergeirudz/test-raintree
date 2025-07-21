@@ -3,23 +3,25 @@ import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
 
 const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
-const APPSYNC_API_KEY = import.meta.env.VITE_APPSYNC_API_KEY;
-const APPSYNC_REGION = import.meta.env.VITE_APPSYNC_REGION;
-const APPSYNC_DEFAULT_AUTH_MODE = import.meta.env
-  .VITE_APPSYNC_DEFAULT_AUTH_MODE;
+const AWS_REGION = import.meta.env.VITE_AWS_REGION;
+const COGNITO_IDENTITY_POOL_ID = import.meta.env.VITE_COGNITO_IDENTITY_POOL_ID;
 
 const amplifyConfig = {
   API: {
     GraphQL: {
       endpoint: GRAPHQL_ENDPOINT,
-      region: APPSYNC_REGION,
-      defaultAuthMode: APPSYNC_DEFAULT_AUTH_MODE,
-      apiKey: APPSYNC_API_KEY,
+      region: AWS_REGION,
+      defaultAuthMode: 'identityPool' as const,
+    },
+  },
+  Auth: {
+    Cognito: {
+      identityPoolId: COGNITO_IDENTITY_POOL_ID,
     },
   },
 };
 
-if (GRAPHQL_ENDPOINT && APPSYNC_API_KEY && APPSYNC_REGION) {
+if (GRAPHQL_ENDPOINT && AWS_REGION && COGNITO_IDENTITY_POOL_ID) {
   Amplify.configure(amplifyConfig);
 } else {
   console.warn('Missing required environment variables for Amplify');

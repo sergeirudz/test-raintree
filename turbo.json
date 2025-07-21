@@ -3,9 +3,6 @@
   "globalDependencies": ["**/.env.*local"],
   "globalEnv": [
     "VITE_GRAPHQL_ENDPOINT",
-    "VITE_APPSYNC_API_KEY",
-    "VITE_APPSYNC_REGION",
-    "VITE_APPSYNC_DEFAULT_AUTH_MODE",
     "VITE_AWS_REGION",
     "VITE_COGNITO_IDENTITY_POOL_ID"
   ],
