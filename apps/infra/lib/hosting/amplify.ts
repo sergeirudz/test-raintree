@@ -45,11 +45,12 @@ export function createAmplifyHosting(
       version: '1.0',
       applications: [
         {
-          appRoot: '.',
+          appRoot: 'apps/frontend',
           frontend: {
             phases: {
               preBuild: {
                 commands: [
+                  'cd ../..',
                   'corepack enable',
                   'corepack prepare pnpm@latest --activate',
                   'pnpm install --frozen-lockfile',
@@ -60,11 +61,11 @@ export function createAmplifyHosting(
               },
             },
             artifacts: {
-              baseDirectory: 'apps/frontend/dist',
+              baseDirectory: 'dist',
               files: ['**/*'],
             },
             cache: {
-              paths: ['node_modules/**/*', '.turbo/**/*'],
+              paths: ['../../node_modules/**/*', '../../.turbo/**/*'],
             },
           },
         },
