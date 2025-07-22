@@ -110,8 +110,8 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
 
               const numValue = parseFloat(value);
               if (isNaN(numValue)) return 'Weight must be a valid number';
-              if (numValue <= 24) return 'Weight must be greater than 24';
-              if (numValue > 251) return 'Weight must be less than 251';
+              if (numValue < 25) return 'Weight must be greater than 24';
+              if (numValue > 250) return 'Weight must be less than 251';
 
               return undefined;
             },
