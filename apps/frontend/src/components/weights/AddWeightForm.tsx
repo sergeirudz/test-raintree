@@ -41,7 +41,7 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
   const form = useForm({
     defaultValues: {
       weight: '',
-      date: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD format
+      date: new Date().toISOString().split('T')[0],
     },
     onSubmit: async ({ value }) => {
       try {
@@ -50,17 +50,25 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
           weight: parseFloat(value.weight),
           date: value.date,
         });
-
-        console.log('Weight created successfully:', newWeight);
         onSuccess?.(newWeight);
 
-        // Reset form after successful submission
         form.reset();
       } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : 'Failed to create weight';
-        console.error('Error creating weight:', error);
-        onError?.(error instanceof Error ? error : new Error(errorMessage));
+        let errorMessage = 'Failed to create weight';
+
+        if (
+          error &&
+          typeof error === 'object' &&
+          'errors' in error &&
+          Array.isArray(error.errors) &&
+          error.errors.length > 0
+        ) {
+          errorMessage = error.errors[0].message;
+        } else if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+
+        onError?.(new Error(errorMessage));
       }
     },
   });
@@ -69,7 +77,13 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
     <Stack sx={{ maxWidth: 400, width: '100%' }} justifyContent="center">
       {createWeightMutation.error && (
         <Alert severity="error" sx={{ mb: 2 }}>
-          {createWeightMutation.error.message}
+          {(
+            createWeightMutation.error as {
+              errors?: Array<{ message: string }>;
+            }
+          ).errors?.[0]?.message ||
+            createWeightMutation.error.message ||
+            'An error occurred while creating the weight'}
         </Alert>
       )}
 
@@ -96,8 +110,8 @@ const AddWeightForm = ({ userId, onSuccess, onError }: AddWeightFormProps) => {
 
               const numValue = parseFloat(value);
               if (isNaN(numValue)) return 'Weight must be a valid number';
-              if (numValue <= 0) return 'Weight must be greater than 0';
-              if (numValue > 1000) return 'Weight must be less than 1000';
+              if (numValue <= 24) return 'Weight must be greater than 24';
+              if (numValue > 251) return 'Weight must be less than 251';
 
               return undefined;
             },

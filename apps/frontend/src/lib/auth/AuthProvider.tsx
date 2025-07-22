@@ -44,8 +44,6 @@ export function AuthProvider({
       const creds = await guestAuth.initialize();
       setCredentials(creds);
       setIsAuthenticated(true);
-
-      console.log('Guest login successful');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Login failed';
       setError(errorMessage);

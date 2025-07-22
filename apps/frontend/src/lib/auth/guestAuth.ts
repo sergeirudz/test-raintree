@@ -43,11 +43,9 @@ export class GuestAuth {
       };
 
       this.isInitialized = true;
-      console.log('Guest authentication initialized successfully');
 
       return this.cachedCredentials;
     } catch (error) {
-      console.error('Failed to initialize guest authentication:', error);
       throw new Error('Guest authentication failed');
     }
   }
@@ -61,7 +59,6 @@ export class GuestAuth {
       this.cachedCredentials.expiration &&
       new Date() >= this.cachedCredentials.expiration
     ) {
-      console.log('Credentials expired, refreshing...');
       return await this.initialize();
     }
 
@@ -98,7 +95,6 @@ export class GuestAuth {
   clearCredentials(): void {
     this.cachedCredentials = null;
     this.isInitialized = false;
-    console.log('Guest credentials cleared');
   }
 }
 

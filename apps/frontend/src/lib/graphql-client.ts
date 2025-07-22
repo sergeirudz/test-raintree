@@ -24,11 +24,6 @@ const amplifyConfig = {
 };
 
 if (GRAPHQL_ENDPOINT && AWS_REGION && COGNITO_IDENTITY_POOL_ID) {
-  console.log('Configuring Amplify with:', {
-    endpoint: GRAPHQL_ENDPOINT,
-    region: AWS_REGION,
-    identityPoolId: COGNITO_IDENTITY_POOL_ID,
-  });
   Amplify.configure(amplifyConfig);
 } else {
   console.warn('Missing required environment variables for Amplify:', {
